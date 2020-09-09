@@ -1,11 +1,17 @@
 # polytopia-sample
 
+The server design is based on the concept of a stateless server where the entire game state is sent on every request. This means that the servers are very easy to scale with no shared data.
+
+It is also possible to store the entire game session as a series of commands, and validate the game in the end when high-scores are send instead of validating it on every move.
+
+If the servers must be stateful (for matchmaking, for example) then the map state can be stored as a simple hash of the entire state. Validating that client and server states match is a matter of comparing that hash.
+
+## Request/Response
+
 Every Request contain the entire **GameState** before the action.
 
 Responses that modify the world also contain the resulting **GameState**.
 Clients are then supposed to replace their **GameState** with the fresh copy sent with the **Response**.
-
-This approach mean that the server validating moves can be stateless which is makes it easier to scale the servers.
 
 ## Domain objects
 
